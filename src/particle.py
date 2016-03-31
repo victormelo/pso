@@ -5,19 +5,18 @@ class Particle:
 
     personal_best = np.array()
 
-    def __init__(self, position, speed, c1, c2):
+    def __init__(self, position, speed):
         self.position = position
         self.speed = speed
-        self.c1 = c1
-        self.c2 = c2
+
 
     def update_position(self):
         self.position = self.position + self.speed
 
-    def update_speed(self, local_best):
+    def update_speed(self, local_best, c1, c2):
         self.speed = self.speed + \
-            self.c1 * random.random() * (self.personal_best - self.position) + \
-            self.c2 * random.random() * (local_best - self.position)
+            c1 * random.random() * (self.personal_best - self.position) + \
+            c2 * random.random() * (local_best - self.position)
 
     def get_fitness(self, fitness_function):
         return fitness_function(position)

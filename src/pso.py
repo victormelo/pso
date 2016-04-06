@@ -1,5 +1,6 @@
 from particle import Particle
 import numpy as np
+from topology import global_best
 
 class PSO:
 
@@ -16,7 +17,7 @@ class PSO:
         self.population = []
 
         for i in range(self.num_particles):
-            position = np.random.uniform(-5.12, 5.12, self.num_dimensions)
+            position = np.random.uniform(self.fitness_function.lower, self.fitness_function.higher, self.num_dimensions)
             speed = np.random.random_sample(self.num_dimensions)
             particle = Particle(i, position, speed, self.fitness_function)
             self.population.append(particle)
@@ -24,6 +25,7 @@ class PSO:
     def run_pso(self):
 
         self.init_population()
+        self.best_particles = []
 
         for iteration in range(self.iterations):
 
@@ -32,10 +34,12 @@ class PSO:
 
             for particle in self.population:
                 particle.update_lbest(self.local_best_function(self.population))
-                particle.update_speed(self.c1, self.c2)
+                particle.update_speed(self.c1, self.c2, w=0.8)
                 particle.update_position()
 
             best = self.best_fitness()
+            self.best_particles.append(best)
+            print best.get_pbest_fitness()
 
     def best_fitness(self):
         return global_best(self.population)

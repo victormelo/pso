@@ -46,10 +46,10 @@ class Particle:
             self.lbest = lbest_particle.position
 
     def get_fitness(self):
-        return self.fitness_function(self.position)
+        return self.fitness_function.evaluate(self.position)
 
     def get_pbest_fitness(self):
-        return self.fitness_function(self.pbest)
+        return self.fitness_function.evaluate(self.pbest)
 
     def get_lbest_fitness(self):
-        return self.fitness_function(self.lbest)
+        return self.fitness_function.evaluate(self.lbest)
